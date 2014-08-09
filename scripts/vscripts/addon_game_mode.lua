@@ -32,7 +32,7 @@ function CAddonTemplateGameMode:InitGameMode()
 	gameEnt:SetFogOfWarDisabled(true)
 
 	-- Fix camera height
-	--gameEnt:SetCameraDistanceOverride(1000)
+	gameEnt:SetCameraDistanceOverride(1250)
 
 	-- Set times up
 	GameRules:SetHeroSelectionTime(30.0)
@@ -41,7 +41,7 @@ end
 
 local snapWidth = 2048
 local snapHeight = 1408
-local odd = true
+local camOffsetY = 200
 
 -- Evaluate the state of the game
 function CAddonTemplateGameMode:OnThink()
@@ -55,10 +55,8 @@ function CAddonTemplateGameMode:OnThink()
 			if IsValidEntity(hero) then
 				-- Grab the position of their hero, and adjust it to a grid
 				local pos = hero:GetOrigin()
-				print('Allocate!'..i)
-				print(pos)
 				pos.x = math.floor(pos.x/snapWidth)*snapWidth + snapWidth/2
-				pos.y = math.floor(pos.y/snapHeight)*snapHeight + snapHeight/2
+				pos.y = math.floor(pos.y/snapHeight)*snapHeight + snapHeight/2 - camOffsetY
 
 				-- Has our origin changed?
 				if IsValidEntity(cams[i]) and cams[i]:GetOrigin() ~= pos then
@@ -72,10 +70,8 @@ function CAddonTemplateGameMode:OnThink()
 				end
 			end
 		end
-
-		odd = not odd
 	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
 		return nil
 	end
-	return 1
+	return 0.1
 end
