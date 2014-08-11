@@ -41,7 +41,7 @@ end
 
 local snapWidth = 2048
 local snapHeight = 1408
-local camOffsetY = 200
+local camOffsetY = 0
 
 -- Evaluate the state of the game
 function CAddonTemplateGameMode:OnThink()
